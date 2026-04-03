@@ -68,7 +68,7 @@
  [],
  False,
  False,
- 1775181746,
+ 1775184777,
  [('runw.exe',
    'D:\\PerfectPacks-main\\manager_customer\\.venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],

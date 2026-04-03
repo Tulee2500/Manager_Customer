@@ -21,58 +21,10 @@
           "note": "",
           "skip": false,
           "start": "2026-04-01"
-        },
-        {
-          "date": "2026-04-02",
-          "skip": false,
-          "note": "Lam hàng mới"
-        },
-        {
-          "date": "2026-04-02",
-          "skip": false,
-          "note": "thêm 500"
-        },
-        {
-          "date": "2026-04-02",
-          "skip": false,
-          "note": "300"
-        },
-        {
-          "date": "2026-04-02",
-          "skip": false,
-          "note": "300"
-        },
-        {
-          "date": "2026-04-02",
-          "skip": false,
-          "note": "300"
         }
       ],
       "image": "/static/uploads/e111b0326d5d4de28ef2fad09144c84d.png",
       "date": "2026-04-02"
-    },
-    {
-      "company": "CÔNG TY CỔ PHẦN DƯỢC PHẨM VIOBA VIỆT NAM",
-      "product": "Túi giấy một nghìn lớp",
-      "owner": "Châu Việt Cường",
-      "sector": "Thực Phẩm Bổ Sung",
-      "date": "2026-04-02",
-      "cycle": 150,
-      "image": "/static/uploads/6997fa9a773545c387eeb59427f7b0e8.png",
-      "note": "10000 hàng",
-      "history": [
-        {
-          "date": "2026-04-02",
-          "note": "10000 hàng",
-          "skip": false
-        },
-        {
-          "date": "2026-04-02",
-          "note": "thêm 2000 hàng",
-          "skip": false
-        }
-      ],
-      "id": 8
     }
   ],
   "customers": [
@@ -84,33 +36,6 @@
       "sector": "Mỹ phẩm",
       "personality": "Chuyên nghiệp",
       "note": "Khách VIP, yêu cầu in ấn tỉ mỉ"
-    },
-    {
-      "id": 3,
-      "company": "Công ty Phú Quý Fashion",
-      "owner": "Lê Văn Hùng",
-      "phone": "0923 456 789",
-      "sector": "May mặc",
-      "personality": "Dễ chịu",
-      "note": ""
-    },
-    {
-      "company": "CÔNG TY TNHH KINH DOANH THỰC PHẨM HƯNG THỊNH",
-      "owner": "Lê An Hạ Vân",
-      "phone": "0977456325",
-      "sector": "Thực phẩm",
-      "personality": "Thân thiện",
-      "note": "Tiền tỷ",
-      "id": 4
-    },
-    {
-      "company": "CÔNG TY CỔ PHẦN DƯỢC PHẨM VIOBA VIỆT NAM",
-      "owner": "Châu Việt Cường",
-      "phone": "0221144563",
-      "sector": "Thực Phẩm Bổ Sung",
-      "personality": "Dễ chịu",
-      "note": "Làm to",
-      "id": 5
     }
   ],
   "pid_cnt": 9,

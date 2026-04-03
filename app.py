@@ -240,6 +240,7 @@ td{padding:13px 16px;vertical-align:middle;white-space:nowrap;}
 .badge-red{background:#fef2f2;color:var(--danger);}
 .badge-cyan{background:#ecfeff;color:#0e7490;}
 .cycle-pill{display:inline-block;background:linear-gradient(135deg,#0d1b2a11,#c9a84c18);border:1px solid rgba(201,168,76,0.25);color:var(--navy);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
+.qty-pill{display:inline-block;background:linear-gradient(135deg,#f0fdf411,#22c55e18);border:1px solid rgba(34,197,94,0.3);color:#166534;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
 .count-pill{background:var(--navy);color:var(--gold);padding:3px 11px;border-radius:20px;font-size:12px;font-weight:600;}
 .phone-link{color:var(--navy);text-decoration:none;font-weight:500;}
 .phone-link:hover{color:var(--gold-dim);text-decoration:underline;}
@@ -471,6 +472,7 @@ td{padding:13px 16px;vertical-align:middle;white-space:nowrap;}
           <th>Ngày Đặt Gần Nhất</th>
           <th>Số Lần Đặt</th>
           <th>Chu Kỳ Nhắc</th>
+          <th>Số Lượng</th>
           <th>Ghi Chú</th>
           <th>Thao Tác</th>
         </tr></thead>
@@ -648,6 +650,10 @@ td{padding:13px 16px;vertical-align:middle;white-space:nowrap;}
           <input class="form-inp" id="pm-date" type="date">
         </div>
         <div class="form-group">
+          <label class="form-label">Số Lượng</label>
+          <div class="fi-wrap"><span class="fi-icon">📊</span><input class="form-inp pl" id="pm-qty" type="number" min="1" placeholder="VD: 500, 1000…"></div>
+        </div>
+        <div class="form-group full">
           <label class="form-label">Ghi Chú</label>
           <input class="form-inp" id="pm-note" placeholder="Ghi chú thêm…">
         </div>
@@ -678,6 +684,10 @@ td{padding:13px 16px;vertical-align:middle;white-space:nowrap;}
       <div class="form-group" style="margin-bottom:12px">
         <label class="form-label">Ngày Đặt <span class="req">*</span></label>
         <input class="form-inp" id="co-date" type="date">
+      </div>
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="form-label">Số Lượng</label>
+        <div class="fi-wrap"><span class="fi-icon">📊</span><input class="form-inp pl" id="co-qty" type="number" min="1" placeholder="VD: 500, 1000…"></div>
       </div>
       <div class="form-group" style="margin-bottom:4px">
         <label class="form-label">Ghi Chú</label>
@@ -839,6 +849,7 @@ function getProdsOf(company){return products.filter(p=>norm(p.company)===norm(co
 function entryDate(e){return e.date || e.start || '';}
 function lastOrderDate(p){const h=p.history||[];for(let i=h.length-1;i>=0;i--){if(!h[i].skip){const d=entryDate(h[i]);if(d)return d;}}return p.date||p.start||'';}
 function lastNote(p){const h=p.history||[];if(!h.length)return '';return h[h.length-1].note||'';}
+function lastOrderQty(p){const h=p.history||[];for(let i=h.length-1;i>=0;i--){if(!h[i].skip&&h[i].qty>0)return h[i].qty;}return null;}
 function orderCount(p){return (p.history||[]).filter(e=>!e.skip).length;}
 
 function calcCycleFromHistory(p){
@@ -920,9 +931,9 @@ function renderProducts(){
   const sec=document.getElementById('p-sector').value;
   const data=products.filter(p=>(!q||norm(p.company).includes(q)||norm(p.product).includes(q)||norm(p.owner).includes(q))&&(!sec||p.sector===sec));
   const tbody=document.getElementById('product-tbody');
-  if(!data.length){tbody.innerHTML=`<tr><td colspan="11"><div class="empty-state"><div class="em-icon">📭</div><p>Không tìm thấy sản phẩm nào</p></div></td></tr>`;document.getElementById('product-count').textContent='0 sản phẩm';return;}
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="12"><div class="empty-state"><div class="em-icon">📭</div><p>Không tìm thấy sản phẩm nào</p></div></td></tr>`;document.getElementById('product-count').textContent='0 sản phẩm';return;}
   tbody.innerHTML=data.map((p,i)=>{
-    const od=lastOrderDate(p);const nt=lastNote(p);const cnt=orderCount(p);const cycle=calcCycleFromHistory(p);
+    const od=lastOrderDate(p);const nt=lastNote(p);const cnt=orderCount(p);const cycle=calcCycleFromHistory(p);const lastQty=lastOrderQty(p);
     return`<tr>
       <td class="stt">${i+1}</td>
       <td><strong>${esc(p.company)}</strong></td>
@@ -933,6 +944,7 @@ function renderProducts(){
       <td>📅 ${od?fmtD(od):'—'}</td>
       <td><span class="count-pill">${cnt} lần</span></td>
       <td>${cycle?`<span class="cycle-pill">${cycle} ngày</span>`:'<span style="color:var(--text-light);font-size:12px">Chưa đủ dữ liệu</span>'}</td>
+      <td>${lastQty?`<span class="qty-pill">📊 ${lastQty.toLocaleString()}</span>`:'<span style="color:var(--text-light)">—</span>'}</td>
       <td class="note-cell">${nt?esc(nt):'<span style="color:var(--text-light)">—</span>'}</td>
       <td><div class="action-btns">
         <button class="btn btn-eye btn-sm" onclick="openHistoryModal(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
@@ -973,7 +985,7 @@ function openProductModal(id=null){
   const histBtn=document.getElementById('pm-t-history');
   const selectWrap=document.getElementById('pm-customer-select-wrap');
   const editWrap=document.getElementById('pm-edit-info-wrap');
-  ['pm-product','pm-date','pm-cycle-remind','pm-note'].forEach(f=>document.getElementById(f).value='');
+  ['pm-product','pm-date','pm-cycle-remind','pm-qty','pm-note'].forEach(f=>document.getElementById(f).value='');
   pendingImageFile=null;const fi=document.getElementById('pm-image-file');if(fi)fi.value='';
   if(id){
     const p=products.find(x=>x.id===id);
@@ -985,12 +997,13 @@ function openProductModal(id=null){
     document.getElementById('pm-product').value=p.product;
     document.getElementById('pm-cycle-remind').value=p.cycle||'';
     document.getElementById('pm-date').value=lastOrderDate(p);
+    document.getElementById('pm-qty').value=lastOrderQty(p)||'';
     document.getElementById('pm-note').value=lastNote(p)||'';
     renderImageUploadArea(p.image||'');
     const h=p.history||[];
     histBtn.style.display='';document.getElementById('pm-history-badge').textContent=h.length;
     document.getElementById('pm-history-list').innerHTML=h.length
-      ?[...h].reverse().map((e,i)=>`<div class="history-item${e.skip?' skip':''}"><div class="history-meta"><span style="background:var(--navy);color:var(--gold);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700">#${h.length-i}</span>${e.skip?`<span class="badge badge-red">❌ Bỏ qua · ${fmtD(entryDate(e))}</span>`:`<span>📅 Đặt hàng: <strong>${fmtD(entryDate(e))}</strong></span>`}</div>${e.note?`<div class="history-note">💬 ${esc(e.note)}</div>`:''}</div>`).join('')
+      ?[...h].reverse().map((e,i)=>`<div class="history-item${e.skip?' skip':''}"><div class="history-meta"><span style="background:var(--navy);color:var(--gold);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700">#${h.length-i}</span>${e.skip?`<span class="badge badge-red">❌ Bỏ qua · ${fmtD(entryDate(e))}</span>`:`<span>📅 Đặt hàng: <strong>${fmtD(entryDate(e))}</strong></span>`}${!e.skip&&e.qty?`<span class="qty-pill" style="font-size:11px">📊 ${Number(e.qty).toLocaleString()}</span>`:''}</div>${e.note?`<div class="history-note">💬 ${esc(e.note)}</div>`:''}</div>`).join('')
       :'<div class="empty-state"><div class="em-icon">📋</div><p>Chưa có lịch sử</p></div>';
   }else{
     document.getElementById('pm-tab-label').textContent='✏️ Thêm mới';
@@ -1009,6 +1022,7 @@ async function saveProduct(){
   const v=f=>document.getElementById(f).value.trim();
   const product=v('pm-product');const date=document.getElementById('pm-date').value;const note=v('pm-note');
   const cycleRaw=parseInt(document.getElementById('pm-cycle-remind').value);const cycle=cycleRaw>0?cycleRaw:null;
+  const qtyRaw=parseInt(document.getElementById('pm-qty').value);const qty=qtyRaw>0?qtyRaw:null;
   let company,owner,sector;
   if(editPid){company=v('pm-company');owner=v('pm-owner');sector=v('pm-sector');}
   else{company=v('pm-company-hidden');owner=v('pm-owner-hidden');sector=v('pm-sector-hidden');if(!company){toast('⚠️ Vui lòng chọn khách hàng!',true);return;}}
@@ -1024,12 +1038,12 @@ async function saveProduct(){
   if(editPid){
     const p=products.find(x=>x.id===editPid);const newHistory=[...(p.history||[])];
     const lastRealIdx=newHistory.map((e,i)=>(!e.skip?i:-1)).filter(i=>i>=0).pop();
-    if(lastRealIdx!==undefined){newHistory[lastRealIdx]={...newHistory[lastRealIdx],date,note};}
-    else{newHistory.push({date,skip:false,note});}
+    if(lastRealIdx!==undefined){newHistory[lastRealIdx]={...newHistory[lastRealIdx],date,qty,note};}
+    else{newHistory.push({date,skip:false,qty,note});}
     await api(`/api/products/${editPid}`,'PUT',{company,product,owner,sector,date,cycle,image:imageUrl,history:newHistory});
     toast('✅ Đã cập nhật sản phẩm!');
   }else{
-    await api('/api/products','POST',{company,product,owner,sector,date,cycle,image:imageUrl,note,history:[{date,skip:false,note}]});
+    await api('/api/products','POST',{company,product,owner,sector,date,cycle,image:imageUrl,note,history:[{date,skip:false,qty,note}]});
     toast('✅ Đã thêm sản phẩm mới!');
   }
   await loadAll();closeModal('product-modal');renderProducts();syncSels();updateSidebarBadge();
@@ -1172,14 +1186,18 @@ function renderReminderPage(){
 /* ═══ CONFIRM / SKIP ORDER ═══ */
 function openConfirmOrder(pid){
   _actionPid=pid;const p=products.find(x=>x.id===pid);const info=productReminderInfo(p);
-  document.getElementById('co-date').value=todayStr();document.getElementById('co-note').value='';
+  document.getElementById('co-date').value=todayStr();
+  document.getElementById('co-qty').value='';
+  document.getElementById('co-note').value='';
   document.getElementById('co-info').innerHTML=`🏢 <strong>${esc(p.company)}</strong> &nbsp;·&nbsp; 📦 ${esc(p.product)}<br><span style="color:var(--text-muted)">${info.nextOrder?`Dự kiến: <strong>${fmtD(info.nextOrder)}</strong> · `:''}Chu kỳ: ${info.cycle?info.cycle+' ngày':'chưa có'}</span>`;
   document.getElementById('confirm-order-modal').classList.add('open');
 }
 async function confirmOrder(){
-  const p=products.find(x=>x.id===_actionPid);const date=document.getElementById('co-date').value;const note=document.getElementById('co-note').value.trim();
+  const p=products.find(x=>x.id===_actionPid);const date=document.getElementById('co-date').value;
+  const note=document.getElementById('co-note').value.trim();
+  const qtyRaw=parseInt(document.getElementById('co-qty').value);const qty=qtyRaw>0?qtyRaw:null;
   if(!date){toast('⚠️ Vui lòng chọn ngày đặt!',true);return;}
-  await api(`/api/products/${p.id}/history`,'POST',{date,skip:false,note});
+  await api(`/api/products/${p.id}/history`,'POST',{date,skip:false,qty,note});
   await loadAll();closeModal('confirm-order-modal');toast(`✅ Đã ghi nhận đơn đặt hàng mới cho ${p.company}!`);
   renderReminderPage();renderProducts();updateSidebarBadge();
 }
@@ -1249,7 +1267,8 @@ function openHistoryModal(pid){
   document.getElementById('hv-timeline').innerHTML=reversed.length?reversed.map((e,i)=>{
     const isFirst=i===reversed.length-1;const d=entryDate(e);let gapHtml='';
     if(!e.skip&&i<reversed.length-1){const prev=reversed.slice(i+1).find(x=>!x.skip);if(prev){const g=days(entryDate(prev),d);if(g>0)gapHtml=`<span class="hv-card-gap">+${g} ngày từ lần trước</span>`;}}
-    return`<div class="hv-entry${e.skip?' skip':''}"><div class="hv-card${e.skip?' skip':isFirst?' first':''}"><div class="hv-card-top"><div style="display:flex;align-items:center;gap:8px"><span style="background:${e.skip?'#c0392b':'var(--navy)'};color:${e.skip?'#fff':'var(--gold)'};font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;flex-shrink:0">#${h.length-([...h].length-1-i)}</span>${e.skip?`<span style="color:var(--danger);font-weight:600;font-size:13px">❌ Bỏ qua · ${fmtD(d)}</span>`:`<span class="hv-card-date">📅 ${fmtD(d)}</span>`}</div>${gapHtml}</div>${e.note?`<div class="hv-card-note">💬 ${esc(e.note)}</div>`:''}</div></div>`;
+    const qtyHtml=(!e.skip&&e.qty)?`<span class="qty-pill" style="font-size:11.5px;margin-left:6px">📊 ${Number(e.qty).toLocaleString()}</span>`:'';
+    return`<div class="hv-entry${e.skip?' skip':''}"><div class="hv-card${e.skip?' skip':isFirst?' first':''}"><div class="hv-card-top"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="background:${e.skip?'#c0392b':'var(--navy)'};color:${e.skip?'#fff':'var(--gold)'};font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;flex-shrink:0">#${h.length-([...h].length-1-i)}</span>${e.skip?`<span style="color:var(--danger);font-weight:600;font-size:13px">❌ Bỏ qua · ${fmtD(d)}</span>`:`<span class="hv-card-date">📅 ${fmtD(d)}</span>${qtyHtml}`}</div>${gapHtml}</div>${e.note?`<div class="hv-card-note">💬 ${esc(e.note)}</div>`:''}</div></div>`;
   }).join(''):'<div class="empty-state"><div class="em-icon">📋</div><p>Chưa có lịch sử</p></div>';
   document.getElementById('hv-order-btn').onclick=()=>{closeModal('history-view-modal');openConfirmOrder(pid);};
   document.getElementById('history-view-modal').classList.add('open');

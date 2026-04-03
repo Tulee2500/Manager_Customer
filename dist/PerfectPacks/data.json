@@ -1,45 +1,64 @@
 {
   "products": [
     {
-      "company": "CÔNG TY TNHH KINH DOANH THỰC PHẨM HƯNG THỊNH",
+      "company": "TNHH Sao Việt",
       "product": "Hộp carton cao cấp",
-      "owner": "Lê An Hạ Vân",
-      "sector": "Thực phẩm",
+      "owner": "Trần Thị Lan",
+      "sector": "Mỹ phẩm",
       "date": "2026-04-03",
-      "cycle": 60,
-      "image": "/uploads/f5e174aa582d465fb607dfbfcfdc5838.png",
-      "note": "10000",
+      "cycle": 50,
+      "image": "/uploads/247b8452000e40d8887f652aca1ecd9a.jpg",
+      "note": "thêm 2000 hàng",
       "history": [
         {
           "date": "2026-04-03",
           "skip": false,
-          "note": "10000"
-        },
-        {
-          "date": "2026-04-03",
-          "skip": false,
-          "note": "+10000"
-        },
-        {
-          "date": "2026-04-03",
-          "skip": false,
-          "note": "+10000"
+          "qty": 500,
+          "note": "thêm 2000 hàng"
         }
       ],
-      "id": 1
+      "id": 9
+    },
+    {
+      "company": "CÔNG TY TNHH KINH DOANH THỰC PHẨM HƯNG THỊNH",
+      "product": "Hộp carton cao cấp",
+      "owner": "Lê An Hạ Vân",
+      "sector": "Mỹ phẩm",
+      "date": "2026-04-03",
+      "cycle": 600,
+      "image": "/uploads/ea633f621ae34ea483583a9b3d1a9f72.jpeg",
+      "note": "300",
+      "history": [
+        {
+          "date": "2026-04-03",
+          "skip": false,
+          "qty": 600,
+          "note": "300"
+        }
+      ],
+      "id": 10
     }
   ],
   "customers": [
     {
+      "id": 2,
+      "company": "TNHH Sao Việt",
+      "owner": "Trần Thị Lan",
+      "phone": "0912 345 678",
+      "sector": "Mỹ phẩm",
+      "personality": "Chuyên nghiệp",
+      "note": "Khách VIP, yêu cầu in ấn tỉ mỉ"
+    },
+    {
       "company": "CÔNG TY TNHH KINH DOANH THỰC PHẨM HƯNG THỊNH",
       "owner": "Lê An Hạ Vân",
       "phone": "0977456325",
-      "sector": "Thực phẩm",
-      "personality": "Dễ chịu",
+      "sector": "Mỹ phẩm",
+      "personality": "Quyết đoán",
       "note": "Tiền tỷ",
-      "id": 1
+      "id": 6
     }
   ],
-  "pid_cnt": 2,
-  "cid_cnt": 2
+  "pid_cnt": 11,
+  "cid_cnt": 7
 }
