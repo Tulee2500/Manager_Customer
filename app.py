@@ -540,10 +540,10 @@ td{padding:13px 16px;vertical-align:middle;white-space:nowrap;}
     <div class="toolbar-row">
       <span class="filter-chip-label">Trạng thái:</span>
       <div class="chip active" id="rf-all"           onclick="setRemindFilter('all',this)">Tất cả</div>
-      <div class="chip"        id="rf-duesoon-before" onclick="setRemindFilter('due-soon-before',this)">🟡 5 Ngày sau nhắc nhở</div>
-      <div class="chip"        id="rf-duesoon-after"  onclick="setRemindFilter('due-soon-after',this)">🟠 5 Ngày trước nhắc nhở</div>
-      <div class="chip"        id="rf-normal"         onclick="setRemindFilter('normal',this)">🟢 Chưa đến</div>
+      <div class="chip"        id="rf-duesoon-before" onclick="setRemindFilter('due-soon-before',this)">🟡 5 Ngày trước nhắc nhở</div>
+      <div class="chip"        id="rf-duesoon-after"  onclick="setRemindFilter('due-soon-after',this)">🟠 5 Ngày sau nhắc nhở</div>
       <div class="chip"        id="rf-overdue"        onclick="setRemindFilter('overdue',this)">🔴 Quá hạn</div>
+      <div class="chip"        id="rf-normal"         onclick="setRemindFilter('normal',this)">🟢 Chưa đến</div>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px" id="remind-summary-grid"></div>
@@ -1154,10 +1154,10 @@ function renderReminderPage(){
   const by={overdue:[],'due-soon-after':[],'due-soon-before':[],normal:[]};
   all.forEach(x=>{if(by[x.info.status])by[x.info.status].push(x);});
   document.getElementById('remind-summary-grid').innerHTML=[
-    {label:'5 Ngày trước nhắc nhở',count:by['due-soon-after'].length,icon:'🟠'},
-    {label:'5 Ngày sau nhắc nhở',count:by['due-soon-before'].length,icon:'🟡'},
-    {label:'Quá hạn',count:by.overdue.length,icon:'🔴'},
+    {label:'5 Ngày trước nhắc nhở',count:by['due-soon-before'].length,icon:'🟡'},
+    {label:'5 Ngày sau nhắc nhở',count:by['due-soon-after'].length,icon:'🟠'},
     {label:'Chưa đến hạn',count:by.normal.length,icon:'🟢'},
+    {label:'Quá hạn',count:by.overdue.length,icon:'🔴'},
   ].map(s=>`<div style="background:var(--white);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);border:1px solid rgba(201,168,76,0.08);display:flex;align-items:center;gap:14px"><span style="font-size:26px">${s.icon}</span><div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--navy);line-height:1">${s.count}</div><div style="font-size:12px;color:var(--text-muted);margin-top:3px">${s.label}</div></div></div>`).join('');
   const ORDER={overdue:0,'due-soon-after':1,'due-soon-before':2,normal:3};
   const shown=all.filter(x=>{

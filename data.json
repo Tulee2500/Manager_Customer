@@ -25,6 +25,25 @@
       ],
       "image": "/static/uploads/e111b0326d5d4de28ef2fad09144c84d.png",
       "date": "2026-04-02"
+    },
+    {
+      "company": "TNHH Sao Việt",
+      "product": "Hộp serum dưỡng da",
+      "owner": "Trần Thị Lan",
+      "sector": "Mỹ phẩm",
+      "date": "2026-03-28",
+      "cycle": 2,
+      "image": "/uploads/d56a291de6c4401cbcd302adeb17000c.jpeg",
+      "note": "",
+      "history": [
+        {
+          "date": "2026-03-28",
+          "note": "",
+          "qty": 500,
+          "skip": false
+        }
+      ],
+      "id": 9
     }
   ],
   "customers": [
@@ -38,6 +57,6 @@
       "note": "Khách VIP, yêu cầu in ấn tỉ mỉ"
     }
   ],
-  "pid_cnt": 9,
+  "pid_cnt": 10,
   "cid_cnt": 6
 }
